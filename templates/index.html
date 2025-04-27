@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>KGBB Verification</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #0f0;
+            font-family: monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        input, button {
+            font-size: 18px;
+            padding: 10px;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🔒 KGBB System Verification 🔒</h1>
+    
+    <input type="text" id="tokenInput" placeholder="Paste your token here..." size="40">
+    <button onclick="submitToken()">Submit</button>
+
+    <h2 id="responseArea"></h2>
+
+    <script>
+        async function submitToken() {
+            const token = document.getElementById('tokenInput').value.trim();
+            const responseArea = document.getElementById('responseArea');
+
+            if (!token) {
+                responseArea.innerText = "❌ Please enter a token.";
+                return;
+            }
+
+            try {
+                const response = await fetch('/validate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token: token })
+                });
+
+                const result = await response.json();
+
+                if (result.unlock_key) {
+                    responseArea.innerText = `✅ Your Unlock Key: ${result.unlock_key}`;
+                } else {
+                    responseArea.innerText = "❌ Error validating token.";
+                }
+
+            } catch (error) {
+                console.error(error);
+                responseArea.innerText = "❌ Server error.";
+            }
+        }
+    </script>
+
+</body>
+</html>
