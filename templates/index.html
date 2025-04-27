@@ -2,62 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>KGBB Verification</title>
-    <style>
-        body {
-            background-color: #000;
-            color: #0f0;
-            font-family: monospace;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-        input, button {
-            font-size: 18px;
-            padding: 10px;
-            margin: 10px;
-        }
-    </style>
+    <title>KGBB Unlock Portal</title>
 </head>
-<body>
+<body style="background-color: black; color: white; text-align: center; padding-top: 50px; font-family: Arial, sans-serif;">
 
-    <h1>🔒 KGBB System Verification 🔒</h1>
-    
-    <input type="text" id="tokenInput" placeholder="Paste your token here..." size="40">
-    <button onclick="submitToken()">Submit</button>
+    <h1>Paste your Token here:</h1>
 
-    <h2 id="responseArea"></h2>
+    <input type="text" id="tokenInput" style="width: 300px; padding: 10px; font-size: 18px;">
+    <br><br>
+    <button onclick="submitToken()" style="padding: 10px 20px; font-size: 18px;">Get Unlock Key</button>
+
+    <h2 id="response" style="margin-top: 30px;"></h2>
 
     <script>
         async function submitToken() {
-            const token = document.getElementById('tokenInput').value.trim();
-            const responseArea = document.getElementById('responseArea');
-
+            const token = document.getElementById("tokenInput").value.trim();
             if (!token) {
-                responseArea.innerText = "❌ Please enter a token.";
+                alert("Please paste your token!");
                 return;
             }
 
             try {
-                const response = await fetch('/validate', {
+                const response = await fetch('/get_key', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ token: token })
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ token: token }),
                 });
 
-                const result = await response.json();
+                const data = await response.json();
 
-                if (result.unlock_key) {
-                    responseArea.innerText = `✅ Your Unlock Key: ${result.unlock_key}`;
+                if (response.ok) {
+                    document.getElementById("response").innerText = "Your Unlock Key: " + data.unlock_key;
                 } else {
-                    responseArea.innerText = "❌ Error validating token.";
+                    document.getElementById("response").innerText = "Error: " + (data.error || "Invalid token.");
                 }
-
             } catch (error) {
-                console.error(error);
-                responseArea.innerText = "❌ Server error.";
+                document.getElementById("response").innerText = "Request failed.";
             }
         }
     </script>
