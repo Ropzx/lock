@@ -8,6 +8,11 @@ app = Flask(__name__)
 current_valid_token = None
 unlock_key = None
 
+@app.route('/', methods=['GET'])
+def index():
+    return 'KGBB API is running ✅'
+
+
 def generate_unlock_key(length=8):
     """Generate random unlock key (A-Z, 0-9)"""
     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
