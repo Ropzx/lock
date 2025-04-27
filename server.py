@@ -43,9 +43,20 @@ def verify():
         return jsonify({"error": "Key missing."}), 400
 
     if key in tokens.values():
+        # Remove the token associated with this key
+        token_to_delete = None
+        for token, stored_key in tokens.items():
+            if stored_key == key:
+                token_to_delete = token
+                break
+
+        if token_to_delete:
+            del tokens[token_to_delete]
+
         return jsonify({"status": "success"}), 200
     else:
         return jsonify({"status": "failure"}), 400
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
