@@ -1,9 +1,11 @@
 from flask import Flask, request, jsonify, render_template, send_from_directory
+from flask_cors import CORS
 import random
 import string
 import os
 
 app = Flask(__name__)
+CORS(app)
 
 tokens = {}  # token -> unlock_key
 
