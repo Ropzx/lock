@@ -1,4 +1,3 @@
-**# === server.py ===**
 from flask import Flask, request, jsonify, render_template
 import random
 import string
@@ -12,7 +11,7 @@ def generate_key():
 
 @app.route('/')
 def home():
-    return "Server is running."
+    return render_template('index.html')  # Optional: create index.html
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -42,55 +41,14 @@ def verify():
         return jsonify({"error": "Key missing."}), 400
 
     if key in tokens.values():
-        token_to_delete = None
-        for token, stored_key in tokens.items():
-            if stored_key == key:
-                token_to_delete = token
+        # Delete token for one-time use
+        for token, val in list(tokens.items()):
+            if val == key:
+                del tokens[token]
                 break
-        if token_to_delete:
-            del tokens[token_to_delete]
         return jsonify({"status": "success"}), 200
     else:
         return jsonify({"status": "failure"}), 400
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
-
-
-**# === client.py ===**
-import requests
-import random
-import string
-
-url = "https://kgbb.xyz"  # Update if running locally or on another host
-
-def generate_token():
-    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
-
-token = generate_token()
-print(f"Generated token: {token}")
-
-try:
-    register_response = requests.post(f"{url}/register", json={"token": token}, timeout=10)
-    print("Register response:", register_response.json())
-
-    input("Go to kgbb.xyz and enter the token above. Press Enter once you get the unlock key...")
-
-    get_key_response = requests.post(f"{url}/get_key", json={"token": token}, timeout=10)
-    print("Raw get_key response:", get_key_response.text)
-    unlock_key = get_key_response.json().get("unlock_key")
-
-    print(f"Received unlock key: {unlock_key}")
-    user_input = input("Enter unlock key: ")
-
-    if user_input == unlock_key:
-        verify_response = requests.post(f"{url}/verify", json={"key": unlock_key}, timeout=10)
-        if verify_response.ok and verify_response.json().get("status") == "success":
-            print("✅ Unlock successful!")
-        else:
-            print("❌ Verification failed.")
-    else:
-        print("❌ Incorrect key entered.")
-
-except Exception as e:
-    print("Request failed:", e)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
