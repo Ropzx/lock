@@ -5,14 +5,14 @@ import os
 
 app = Flask(__name__)
 
-tokens = {}  # token -> unlock_key
+tokens = {}
 
 def generate_key():
     return ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
 
 @app.route('/')
 def home():
-    return render_template('index.html')  # Serve frontend
+    return render_template('index.html') 
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -43,7 +43,7 @@ def verify():
         return jsonify({"error": "Key missing."}), 400
 
     if key in tokens.values():
-        # Remove the token associated with this key
+        
         token_to_delete = None
         for token, stored_key in tokens.items():
             if stored_key == key:
