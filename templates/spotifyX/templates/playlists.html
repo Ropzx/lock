@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select Playlist to Shuffle</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div id="loading"><div class="spinner"></div></div>
+        <h1>Your Spotify Playlists</h1>
+
+        {% for playlist in playlists %}
+        <div class="playlist">
+            {% if playlist.images %}
+            <img src="{{ playlist.images[0].url }}" alt="cover">
+            {% endif %}
+            <div class="info">
+                <h2>{{ playlist.name }}</h2>
+                <p>{{ playlist.tracks.total }} tracks</p>
+            </div>
+            <form method="POST" action="/randomize">
+                <input type="hidden" name="playlist_id" value="{{ playlist.id }}">
+                <button type="submit">Shuffle</button>
+            </form>
+        </div>
+        {% endfor %}
+
+        <div class="logout">
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+    <script>
+document.querySelectorAll("form").forEach(form => {
+    form.addEventListener("submit", () => {
+        document.getElementById("loading").style.display = "flex";
+    });
+});
+</script>
+
+</body>
+</html>
